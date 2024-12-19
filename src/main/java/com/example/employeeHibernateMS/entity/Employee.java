@@ -1,8 +1,11 @@
 package com.example.employeeHibernateMS.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "employee")
@@ -11,19 +14,16 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "first_name",nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name",nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "email",nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "department",nullable = false)
-    private String department;
-
-    @Column(name = "age",nullable = false)
+    @Column(name = "age", nullable = false)
     private int age;
 
     @Column(name = "dob", nullable = false)
@@ -32,95 +32,40 @@ public class Employee {
     @Column(name = "phone_number", nullable = false)
     private long phoneNumber;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Address> addresses;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "employee_address_department",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id")
+    )
+    private Set<Department> departments = new HashSet<>();
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", department='" + department + '\'' +
-                ", age=" + age +
-                ", dob=" + dob +
-                ", phoneNumber=" + phoneNumber +
-                '}';
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
-
-    public long getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(long phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    public Employee(){
+    public Employee() {
 
     }
 
-    public Employee(int id, String firstName, String lastName, String department, String email, int age, LocalDate dob, long phoneNumber) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.department = department;
-        this.email = email;
-        this.age = age;
-        this.dob = dob;
-        this.phoneNumber = phoneNumber;
+    // Getters and Setters
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Set<Department> getDepartments() {
+        return departments;
+    }
+
+
+
+    public void setDepartments(Set<Department> departments) {
+        this.departments = departments;
     }
 }

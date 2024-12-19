@@ -13,10 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeRestController {
+    private final EmployeeService employeeService;
+
     @Autowired
-    private EmployeeService employeeService;
-
-
+    public EmployeeRestController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @PostMapping
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
@@ -24,15 +26,21 @@ public class EmployeeRestController {
         return ResponseEntity.ok(savedEmployee);
     }
 
-    @PostMapping("/{employeeId}")
+    @PostMapping("/{employeeId}/addresses")
     public ResponseEntity<Address> addAddress(@PathVariable int employeeId, @RequestBody Address address) {
-        address.setEmployee(new Employee()); // Set employee object
-        address.getEmployee().setId(employeeId); // Set employee ID
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        address.setEmployee(employee);
         Address savedAddress = employeeService.saveAddress(address);
         return ResponseEntity.ok(savedAddress);
     }
 
-    @GetMapping()
+    @PostMapping("/{employeeId}/departments/{departmentId}")
+    public ResponseEntity<Employee> assignDepartment(@PathVariable int employeeId, @PathVariable int departmentId) {
+        Employee updatedEmployee = employeeService.assignDepartment(employeeId, departmentId);
+        return ResponseEntity.ok(updatedEmployee);
+    }
+
+    @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
