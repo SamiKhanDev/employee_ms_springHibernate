@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api")
 public class EmployeeRestController {
     private final EmployeeService employeeService;
 
@@ -20,7 +20,7 @@ public class EmployeeRestController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
         Employee savedEmployee = employeeService.saveEmployee(employee);
         return ResponseEntity.ok(savedEmployee);
@@ -40,7 +40,7 @@ public class EmployeeRestController {
         return ResponseEntity.ok(updatedEmployee);
     }
 
-    @GetMapping
+    @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }

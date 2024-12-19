@@ -6,11 +6,13 @@ import com.example.employeeHibernateMS.entity.Employee;
 import com.example.employeeHibernateMS.repository.AddressRepository;
 import com.example.employeeHibernateMS.repository.DepartmentRepository;
 import com.example.employeeHibernateMS.repository.EmployeeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
