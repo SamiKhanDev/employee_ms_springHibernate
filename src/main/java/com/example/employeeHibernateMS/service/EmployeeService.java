@@ -26,22 +26,28 @@ public class EmployeeService {
         this.departmentRepository = departmentRepository;
     }
 
+    // Save a new Employee
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
+    // Save a new Address
     public Address saveAddress(Address address) {
         return addressRepository.save(address);
     }
 
+    // Save a new Department
     public Department saveDepartment(Department department) {
         return departmentRepository.save(department);
     }
+
+    // Get an  Employee with id
     public Employee getEmployeeById(int id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee with ID " + id + " not found"));
     }
 
+    // Assign a Department to an Employee
     public Employee assignDepartment(int employeeId, int departmentId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("Employee not found"));
         Department department = departmentRepository.findById(departmentId).orElseThrow(() -> new RuntimeException("Department not found"));

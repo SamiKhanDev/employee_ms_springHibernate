@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "employee")
 public class Employee {
+    // Primary key for the employee table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -90,11 +91,12 @@ public class Employee {
 
 
 
-
+    // One-to-Many relationship with Address entity
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Address> addresses;
 
+    // Many-to-Many relationship with Department entity
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "employee_address_department",
@@ -103,6 +105,7 @@ public class Employee {
     )
     private Set<Department> departments = new HashSet<>();
 
+    // Default constructor
     public Employee() {
 
     }

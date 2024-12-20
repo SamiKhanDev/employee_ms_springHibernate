@@ -34,12 +34,14 @@ public class EmployeeRestController {
         return ResponseEntity.ok(savedAddress);
     }
 
+    // Assign a Department to an Employee
     @PostMapping("/{employeeId}/departments/{departmentId}")
     public ResponseEntity<Employee> assignDepartment(@PathVariable int employeeId, @PathVariable int departmentId) {
         Employee updatedEmployee = employeeService.assignDepartment(employeeId, departmentId);
         return ResponseEntity.ok(updatedEmployee);
     }
 
+    // Getting list of all employees with address and department
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());

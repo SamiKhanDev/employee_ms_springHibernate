@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "address")
 public class Address {
+    // Primary key for the address table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // Many-to-One relationship with employee entity
     @ManyToOne
     @JoinColumn(name = "employee_id")
     @JsonBackReference
@@ -31,7 +33,7 @@ public class Address {
     public Address(){
 
     }
-
+    // Overridden toString() method for debugging and logging
     @Override
     public String toString() {
         return "Address{" +
@@ -110,6 +112,7 @@ public class Address {
         this.country = country;
     }
 
+    // Constructor with fields
     public Address(String streetName, int id, Employee employee, String streetNumber, String city, String state, String postalCode, String country) {
         this.streetName = streetName;
         this.id = id;

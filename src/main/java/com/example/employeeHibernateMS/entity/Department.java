@@ -7,6 +7,8 @@ import java.util.Set;
 @Entity
 @Table(name = "department")
 public class Department {
+
+    // Primary key for the department table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -14,9 +16,11 @@ public class Department {
     @Column(name = "name", nullable = false)
     private String name;
 
+    // Many-to-Many relationship with Employee entity
     @ManyToMany(mappedBy = "departments", fetch = FetchType.EAGER)
     private Set<Employee> employees = new HashSet<>();
 
+    // Default constructor
     public Department() {}
 
     // Getters and Setters
